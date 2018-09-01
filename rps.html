@@ -1,12 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
+
 <body>
-    
+
+  <script type="text/javascript">
+    //Declared Variables/Arrays
+    // var userChoice
+    // var compChoice
+    var userScore = 0;
+    var compScore = 0;
+    var totalRounds = 0;
+    var scoreToWin = 3;
+
+    var compChoices = ["r", "p", "s"];
+
+    //Do-While loop (Main Code)
+    //do {
+
+      document.onkeyup = function (event) {
+
+        var userChoice = event.key;
+
+        var compChoice = compChoices[Math.floor(Math.random() * compChoices.length)];
+
+        alert("You chose: " + userChoice);
+        alert("Computer chose: " + compChoice);
+
+        if (userChoice == "r" && compChoice == "s" || userChoice == "p" && compChoice == "r" || userChoice == "s" &&
+          compChoice == "p") {
+          userScore++;
+          totalRounds++;
+          alert("You win! " + "Your current score: " + userScore);
+          alert("Computer's score: " + compScore);
+        } else if (compChoice == "r" && userChoice == "s" || compChoice == "p" && userChoice == "r" || compChoice ==
+          "s" && userChoice == "p") {
+          compScore++;
+          totalRounds++;
+          alert("You lost! " + "Your current score: " + userScore);
+          alert("Computer's score: " + compScore);
+        } else if (userChoice == "r" && compChoice == "r" || userChoice == "p" && compChoice == "p" || userChoice ==
+          "s" && compChoice == "s") {
+          userScore++;
+          compScore++;
+          totalRounds++;
+          scoreToWin++;
+          alert("It's a TIE!");
+          alert("Your current score: " + userScore);
+          alert("Computer's score: " + compScore);
+        } else {
+          alert("Something went wrong! :(");
+        }
+      }
+
+    //} while (userScore < scoreToWin || compScore < scoreToWin && totalRounds < scoreToWin);
+  </script>
+
 </body>
+
 </html>
