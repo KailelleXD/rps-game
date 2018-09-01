@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Let's Play: Rock-Paper-Scissors!</title>
 </head>
 
 <body>
@@ -13,21 +13,30 @@
   <h1>Open the Console to play! XD</h1>
 
   <script type="text/javascript">
-    //Declared Variables/Arrays
+
+    // Below you will find my solution to the RPS class activity.
+    // Please read the comments throughout the page for more info!
+    // For now everything is logged through the console, 
+    // but if my understanding is correct, then in a future revision
+    // console.log would be replaced with code to manipulate the DOM.
+    // If you have any questions, I'll try my best to answer them! ^_^;
+
+    // Also, if you find any BUGS please DM me on slack!
+
+    // Declared Variables/Arrays
     var userScore = 0;
     var compScore = 0;
     var totalRounds = 1;
-    var scoreToWin = 3;
+    var scoreToWin = 3; // <-- This variable exists to prevent both user/comp from achieving a winning score simultaneously.
 
-    var compChoices = ["r","p","s"];
+    var compChoices = ["r","p","s"]; // <-- comment this out and...
+    //var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
+                               // By doing this you can play-test the code 
+                               // and check out how the algorithm works!
 
     console.log("Let's play ROCK, PAPER, SCISSORS!!!");
     console.log("Please press, 'r', 'p' or 's'");
     console.log(" ");
-
-    // if (userChoice != "r" || userChoice != "p" || userChoice != "s") {
-    //   console.log("Invalid Choice! Please press, 'r', 'p' or 's'");
-    // }
 
     document.onkeyup = function (event) {
 
@@ -35,6 +44,8 @@
 
       var compChoice = compChoices[Math.floor(Math.random() * compChoices.length)];
 
+      // The section below assigns the appropriate whole-word depending on the user/comp's choice.
+      
       if (userChoice == "r") {
         userChoiceDisplay = "ROCK";
       } else if (userChoice == "p") {
@@ -53,18 +64,28 @@
         compChoiceDisplay = "SCISSORS";
       }
 
+      // -------------------------------------------------------------------------------------------
+
+
+      // This is where that whole-word is displayed in console.
+
       console.log("Round: " + totalRounds);
       console.log("User chose: " + userChoiceDisplay);
       console.log("Comp chose: " + compChoiceDisplay);
 
+      // ------------------------------------------------------
+
+
+      // The section below is the if-else statements to determine who wins each round.
+
       if (userChoice == "r" && compChoice == "s" || userChoice == "p" && compChoice == "r" || userChoice == "s" &&
         compChoice == "p") {
-        userScore++;
+        userScore++; // increments the userScore variable by 1 (Same as: " userScore = userScore + 1; ")
         totalRounds++;
         console.log("You win!")
         console.log("User's score: " + userScore);
         console.log("Comp's score: " + compScore);
-        //console.log("Score needed to win: " + scoreToWin);
+        // console.log("Score needed to win: " + scoreToWin); // <-- I used this line of code for debugging purposes.
         console.log(" ");
       } else if (compChoice == "r" && userChoice == "s" || compChoice == "p" && userChoice == "r" || compChoice ==
         "s" && userChoice == "p") {
@@ -73,24 +94,26 @@
         console.log("You lost!");
         console.log("User's score: " + userScore);
         console.log("Comp's score: " + compScore);
-        //console.log("Score needed to win: " + scoreToWin);
+        // console.log("Score needed to win: " + scoreToWin);
         console.log(" ");
       } else if (userChoice == "r" && compChoice == "r" || userChoice == "p" && compChoice == "p" || userChoice ==
         "s" && compChoice == "s") {
         userScore++;
         compScore++;
         totalRounds++;
-        scoreToWin++;
+        scoreToWin++; // <-- Since we add points to both user/comp (when there's a tie-game), we then increment scoreToWin to prevent both players from winning.
         console.log("It's a TIE!");
         console.log("User's score: " + userScore);
         console.log("Comp's score: " + compScore);
-        //console.log("Score needed to win: " + scoreToWin);
+        // console.log("Score needed to win: " + scoreToWin);
         console.log(" ");
       } else {
-        console.log("You pressed an incorrect key! Please choose, 'r', 'p', or 's' to play!");
+        console.log("You pressed an incorrect key! Please choose, 'r', 'p', or 's' to play!"); // <-- Temporary Solution to incorrect key-press.
         console.log(" ");
         console.log(" ");
       }
+
+      // The section below determines when there is a winner and displays pertinent data, and prompts the user to play again.
 
       if (userScore >= scoreToWin && totalRounds > 5) {
         console.log("<<<You won the game!>>>");
@@ -100,6 +123,7 @@
         console.log("Comp: " + compScore);
         console.log(" ");
 
+        // This section resets our scores/rounds.
         userScore = 0;
         compScore = 0;
         totalRounds = 1;
