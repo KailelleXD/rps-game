@@ -12,54 +12,85 @@
 
   <script type="text/javascript">
     //Declared Variables/Arrays
-    // var userChoice
-    // var compChoice
     var userScore = 0;
     var compScore = 0;
-    var totalRounds = 0;
+    var totalRounds = 1;
     var scoreToWin = 3;
 
-    var compChoices = ["r", "p", "s"];
+    var compChoices = ["r","p","s"];
 
-    //Do-While loop (Main Code)
-    //do {
+    //Do-While loop
+    //do {} while ((userScore < scoreToWin || compScore < scoreToWin) && totalRounds <= scoreToWin);
 
-      document.onkeyup = function (event) {
+    console.log("Let's play ROCK, PAPER, SCISSORS!!!");
 
-        var userChoice = event.key;
 
-        var compChoice = compChoices[Math.floor(Math.random() * compChoices.length)];
+    document.onkeyup = function (event) {
 
-        alert("You chose: " + userChoice);
-        alert("Computer chose: " + compChoice);
+      var userChoice = event.key;
 
-        if (userChoice == "r" && compChoice == "s" || userChoice == "p" && compChoice == "r" || userChoice == "s" &&
-          compChoice == "p") {
-          userScore++;
-          totalRounds++;
-          alert("You win! " + "Your current score: " + userScore);
-          alert("Computer's score: " + compScore);
-        } else if (compChoice == "r" && userChoice == "s" || compChoice == "p" && userChoice == "r" || compChoice ==
-          "s" && userChoice == "p") {
-          compScore++;
-          totalRounds++;
-          alert("You lost! " + "Your current score: " + userScore);
-          alert("Computer's score: " + compScore);
-        } else if (userChoice == "r" && compChoice == "r" || userChoice == "p" && compChoice == "p" || userChoice ==
-          "s" && compChoice == "s") {
-          userScore++;
-          compScore++;
-          totalRounds++;
-          scoreToWin++;
-          alert("It's a TIE!");
-          alert("Your current score: " + userScore);
-          alert("Computer's score: " + compScore);
-        } else {
-          alert("Something went wrong! :(");
-        }
+      var compChoice = compChoices[Math.floor(Math.random() * compChoices.length)];
+
+      if (userChoice == "r") {
+        userChoiceDisplay = "ROCK";
+      } else if (userChoice == "p") {
+        userChoiceDisplay = "PAPER";
+      } else if (userChoice == "s") {
+        userChoiceDisplay = "SCISSORS";
       }
 
-    //} while (userScore < scoreToWin || compScore < scoreToWin && totalRounds < scoreToWin);
+      if (compChoice == "r") {
+        compChoiceDisplay = "ROCK";
+      } else if (compChoice == "p") {
+        compChoiceDisplay = "PAPER";
+      } else if (compChoice == "s") {
+        compChoiceDisplay = "SCISSORS";
+      }
+
+      console.log("Round: " + totalRounds);
+      console.log("User chose: " + userChoiceDisplay);
+      console.log("Comp chose: " + compChoiceDisplay);
+
+      if (userChoice == "r" && compChoice == "s" || userChoice == "p" && compChoice == "r" || userChoice == "s" &&
+        compChoice == "p") {
+        userScore++;
+        totalRounds++;
+        console.log("You win!")
+        console.log("User's score: " + userScore);
+        console.log("Comp's score: " + compScore);
+        console.log("Score needed to win: " + scoreToWin);
+        console.log(" ");
+      } else if (compChoice == "r" && userChoice == "s" || compChoice == "p" && userChoice == "r" || compChoice ==
+        "s" && userChoice == "p") {
+        compScore++;
+        totalRounds++;
+        console.log("You lost!");
+        console.log("User's score: " + userScore);
+        console.log("Comp's score: " + compScore);
+        console.log("Score needed to win: " + scoreToWin);
+        console.log(" ");
+      } else if (userChoice == "r" && compChoice == "r" || userChoice == "p" && compChoice == "p" || userChoice ==
+        "s" && compChoice == "s") {
+        userScore++;
+        compScore++;
+        totalRounds++;
+        scoreToWin++;
+        console.log("It's a TIE!");
+        console.log("User's score: " + userScore);
+        console.log("Comp's score: " + compScore);
+        console.log("Score needed to win: " + scoreToWin);
+        console.log(" ");
+      } else {
+        console.log("Something went wrong! :(");
+      }
+
+
+      if (userScore = scoreToWin && totalRounds >= scoreToWin) {
+        console.log("You won the game!");
+      } else if (compScore = scoreToWin && totalRounds >= scoreToWin) {
+        console.log("You lost the game!");
+      }
+    }
   </script>
 
 </body>
