@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Let's Play: Rock-Paper-Scissors!</title>
+  <title>Document</title>
 </head>
 
 <body>
@@ -13,39 +13,109 @@
   <h1>Open the Console to play! XD</h1>
 
   <script type="text/javascript">
+        /* 
+        Below you will find my solution to the RPS class activity.
+        Please read the comments throughout the page for more info!
+        For now everything is logged through the console, 
+        but if my understanding is correct, then in a future revision
+        console.log would be replaced with code to manipulate the DOM.
+        If you have any questions, I'll try my best to answer them! ^_^;
 
-    // Below you will find my solution to the RPS class activity.
-    // Please read the comments throughout the page for more info!
-    // For now everything is logged through the console, 
-    // but if my understanding is correct, then in a future revision
-    // console.log would be replaced with code to manipulate the DOM.
-    // If you have any questions, I'll try my best to answer them! ^_^;
+        Also, if you find any BUGS please DM me on slack!
+        */
 
-    // Also, if you find any BUGS please DM me on slack!
-
-    // Declared Variables/Arrays
+    //Declared Variables/Arrays
     var userScore = 0;
     var compScore = 0;
-    var totalRounds = 1;
-    var scoreToWin = 3; // <-- This variable exists to prevent both user/comp from achieving a winning score simultaneously.
+    var totalRounds = 0;
 
-    var compChoices = ["r","p","s"]; // <-- comment this out and...
-    //var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
-                               // By doing this you can play-test the code 
-                               // and check out how the algorithm works!
+    //The variable below prevents both user/comp from achieving a winning score simultaneously.
+    var scoreToWin = 3;
+
+    var suddenDeathRound = 0;
+
+    var compChoices = ["r", "p", "s"]; // <-- comment this out and...
+    // var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
+    // By doing this you can play-test the code 
+    // and check out how the algorithm works!
 
     console.log("Let's play ROCK, PAPER, SCISSORS!!!");
+    console.log("(Best out of FIVE games WINS)")
     console.log("Please press, 'r', 'p' or 's'");
     console.log(" ");
 
+    //Functions to prevent repetative coding and check different game statuses.
+    function gameReset() {
+      userScore = 0;
+      compScore = 0;
+      totalRounds = 0;
+      scoreToWin = 3;
+      suddenDeathRound = 0;
+
+      console.log("=====================================================");
+      console.log("Choose 'r', 'p', or 's' to start over and play again!");
+      console.log("=====================================================");
+      console.log(" ");
+      console.log(" ");
+    }
+
+    /* The function below checks to see if both the user/comp are tied
+    to prevent a tie game resulting in a false win. */
+    function tieCheck() {
+      if (userScore == compScore && totalRounds >= scoreToWin && (userScore == scoreToWin || compScore == scoreToWin)) {
+        scoreToWin++;
+      }
+    }
+
+    function suddenDeath() {
+      if (totalRounds > 5) {
+        totalRounds--; // This is here to maintain the total non-sudden death rounds at 5.
+        suddenDeathRound++;
+        console.log("Sudden Death!!! [Round: " + suddenDeathRound + "]");
+      } else {
+        console.log("Round: " + totalRounds);
+      }
+    }
+
+    function suddenDeathCheck() {
+      if (totalRounds == 5 && userScore == compScore && suddenDeathRound == 0) {
+        console.log("=========================================================================");
+        console.log("No clear winner at the end of Round 5!");
+        console.log("Time to start SUDDEN DEATH!");
+        console.log("Please choose 'r', 'p', or 's' to continue!");
+        console.log("=========================================================================");
+        console.log(" ");
+      }
+    }
+
+    function sdTieCheck() {
+      if (userScore == compScore && totalRounds > 5) {
+        totalRounds--; // This is here to maintain the total non-sudden death rounds at 5.
+        console.log("=========================================================================");
+        console.log("IT'S STILL TIED!!!");
+        console.log("Please choose 'r', 'p', or 's' to continue to [Round " + (suddenDeathRound + 1) +
+          "] of SUDDEN DEATH!");
+        console.log("=========================================================================");
+        console.log(" ");
+      }
+    }
+
+    function sdBadKey() {
+      if (totalRounds == 5 && userScore == compScore) {
+        suddenDeathRound--;
+      }
+    }
+
+    //Below is the main section of code that allows the game to function as intended.
     document.onkeyup = function (event) {
+
+      totalRounds++; //Adds one to totalRounds everytime the user depresses a key.
 
       var userChoice = event.key;
 
       var compChoice = compChoices[Math.floor(Math.random() * compChoices.length)];
 
-      // The section below assigns the appropriate whole-word depending on the user/comp's choice.
-      
+      // The section below assigns the whole-word depending on the user/comp's choice.
       if (userChoice == "r") {
         userChoiceDisplay = "ROCK";
       } else if (userChoice == "p") {
@@ -64,94 +134,88 @@
         compChoiceDisplay = "SCISSORS";
       }
 
-      // -------------------------------------------------------------------------------------------
+      suddenDeath(); //A function to check if the user is in Sudden Death (Past round 5)
 
-
-      // This is where that whole-word is displayed in console.
-
-      console.log("Round: " + totalRounds);
+      //This is where the whole-word is displayed in the console.
       console.log("User chose: " + userChoiceDisplay);
       console.log("Comp chose: " + compChoiceDisplay);
 
-      // ------------------------------------------------------
-
-
-      // The section below is the if-else statements to determine who wins each round.
-
+      //The section below is the if-else statements to determine who wins each round.
       if (userChoice == "r" && compChoice == "s" || userChoice == "p" && compChoice == "r" || userChoice == "s" &&
         compChoice == "p") {
-        userScore++; // increments the userScore variable by 1 (Same as: " userScore = userScore + 1; ")
-        totalRounds++;
+        userScore++; //Increments userScore by 1, ( Same as: userScore = userScore + 1; )
+        tieCheck(); //Refer back up to the functions section!
         console.log("You win!")
         console.log("User's score: " + userScore);
         console.log("Comp's score: " + compScore);
-        // console.log("Score needed to win: " + scoreToWin); // <-- I used this line of code for debugging purposes.
+        //The line of code below was used for debugging purposes.
+        //console.log("Score needed to win: " + scoreToWin); 
         console.log(" ");
+        suddenDeathCheck();
       } else if (compChoice == "r" && userChoice == "s" || compChoice == "p" && userChoice == "r" || compChoice ==
         "s" && userChoice == "p") {
         compScore++;
-        totalRounds++;
+        tieCheck();
         console.log("You lost!");
         console.log("User's score: " + userScore);
         console.log("Comp's score: " + compScore);
-        // console.log("Score needed to win: " + scoreToWin);
+        //console.log("Score needed to win: " + scoreToWin);
         console.log(" ");
-      } else if (userChoice == "r" && compChoice == "r" || userChoice == "p" && compChoice == "p" || userChoice ==
-        "s" && compChoice == "s") {
+        suddenDeathCheck();
+      } else if ((userChoice == "r" && compChoice == "r" || userChoice == "p" && compChoice == "p" || userChoice ==
+          "s" && compChoice == "s") && (userScore == compScore)) {
         userScore++;
         compScore++;
-        totalRounds++;
-        scoreToWin++; // <-- Since we add points to both user/comp (when there's a tie-game), we then increment scoreToWin to prevent both players from winning.
+        tieCheck();
         console.log("It's a TIE!");
         console.log("User's score: " + userScore);
         console.log("Comp's score: " + compScore);
-        // console.log("Score needed to win: " + scoreToWin);
+        //console.log("Score needed to win: " + scoreToWin);
         console.log(" ");
+        suddenDeathCheck();
+        sdTieCheck();
+      } else if ((userChoice == "r" && compChoice == "r" || userChoice == "p" && compChoice == "p" || userChoice ==
+          "s" && compChoice == "s") && (userScore != compScore)) {
+        userScore++;
+        compScore++;
+        console.log("It's a TIE!");
+        console.log("User's score: " + userScore);
+        console.log("Comp's score: " + compScore);
+        //console.log("Score needed to win: " + scoreToWin);
+        console.log(" ");
+        suddenDeathCheck();
+        sdTieCheck();
       } else {
-        console.log("You pressed an incorrect key! Please choose, 'r', 'p', or 's' to play!"); // <-- Temporary Solution to incorrect key-press.
+        //This is a temporary solution to an incorrect key-press.
+        // totalRounds--; //We decrement totalRounds to counter the initial increment.
+        sdBadKey(); //If in Sudden Death Rounds, then function decrements to keep accurate count.
+        console.log("You pressed an incorrect key! Please choose, 'r', 'p', or 's' to play!");
         console.log(" ");
         console.log(" ");
       }
 
-      // The section below determines when there is a winner and displays pertinent data, and prompts the user to play again.
-
-      if (userScore >= scoreToWin && totalRounds > 5) {
+      /* The section below determines when there is a winner
+      as well as runs the gameReset function. */
+      if (userScore >= scoreToWin && totalRounds >= 5 && userScore > compScore) {
         console.log("<<<You won the game!>>>");
         console.log(" ");
         console.log("Final Score");
         console.log("User: " + userScore);
         console.log("Comp: " + compScore);
         console.log(" ");
-
-        // This section resets our scores/rounds.
-        userScore = 0;
-        compScore = 0;
-        totalRounds = 1;
-        scoreToWin = 3;
-
-        console.log("=====================================================");
-        console.log("Choose 'r', 'p', or 's' to start over and play again!");
-        console.log("=====================================================");
+        console.log("You played a total of " + (totalRounds + suddenDeathRound) + " rounds this game!");
         console.log(" ");
-        console.log(" ");
-      } else if (compScore >= scoreToWin && totalRounds > 5) {
+        gameReset();
+      } else if (compScore >= scoreToWin && totalRounds >= 5 && compScore > userScore) {
         console.log("<<<You lost the game!>>>");
         console.log(" ");
         console.log("Final Score");
         console.log("User: " + userScore);
         console.log("Comp: " + compScore);
         console.log(" ");
-
-        userScore = 0;
-        compScore = 0;
-        totalRounds = 1;
-        scoreToWin = 3;
-
-        console.log("=====================================================");
-        console.log("Choose 'r', 'p', or 's' to start over and play again!");
-        console.log("=====================================================");
+        console.log("You played a total of " + (totalRounds + suddenDeathRound) + " rounds this game!");
         console.log(" ");
-        console.log(" ");
+        gameReset();
       }
     }
   </script>
