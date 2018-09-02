@@ -34,10 +34,11 @@
 
     var suddenDeathRound = 0;
 
-    var compChoices = ["r", "p", "s"]; // <-- comment this out and...
-    // var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
-    // By doing this you can play-test the code 
-    // and check out how the algorithm works!
+    // var compChoices = ["r", "p", "s"]; // <-- comment this out and...
+    var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
+    
+    /* By doing this you can play-test the code 
+    and check out how the algorithm works! */
 
     console.log("Let's play ROCK, PAPER, SCISSORS!!!");
     console.log("(Best out of FIVE games WINS)")
@@ -69,7 +70,6 @@
 
     function suddenDeath() {
       if (totalRounds > 5) {
-        totalRounds--; // This is here to maintain the total non-sudden death rounds at 5.
         suddenDeathRound++;
         console.log("Sudden Death!!! [Round: " + suddenDeathRound + "]");
       } else {
@@ -89,7 +89,7 @@
     }
 
     function sdTieCheck() {
-      if (userScore == compScore && totalRounds > 5) {
+      if (userScore == compScore && totalRounds >= 5 && suddenDeathRound >= 1) {
         totalRounds--; // This is here to maintain the total non-sudden death rounds at 5.
         console.log("=========================================================================");
         console.log("IT'S STILL TIED!!!");
@@ -101,7 +101,7 @@
     }
 
     function sdBadKey() {
-      if (totalRounds == 5 && userScore == compScore) {
+      if (suddenDeathRound >= 1 && userScore == compScore) {
         suddenDeathRound--;
       }
     }
@@ -187,7 +187,7 @@
         sdTieCheck();
       } else {
         //This is a temporary solution to an incorrect key-press.
-        // totalRounds--; //We decrement totalRounds to counter the initial increment.
+        totalRounds--; //We decrement totalRounds to counter the initial increment.
         sdBadKey(); //If in Sudden Death Rounds, then function decrements to keep accurate count.
         console.log("You pressed an incorrect key! Please choose, 'r', 'p', or 's' to play!");
         console.log(" ");
