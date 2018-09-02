@@ -1,0 +1,55 @@
+bug report
+
+round. userScore - compScore [win/lose/tie][scoreToWin]
+
+r01.  1 -  0 [w][ 3]
+
+r02.  2 -  1 [t][ 3]
+
+r03.  2 -  2 [l][ 4] <-- Should not increment scoreToWin
+			 Does so because scoreToWin == totalRounds 
+r04.  2 -  3 [l][ 4]
+
+r05.  3 -  3 [w][ 5]
+
+r06.  3 -  4 [l][ 5]
+
+r07.  4 -  4 [w][ 6]
+ 
+r08.  5 -  5 [t][ 7]
+
+r09.  6 -  5 [w][ 7]
+
+r10.  6 -  6 [l][ 8]
+
+r11.  6 -  7 [l][ 8]
+
+r12.  7 -  7 [w][ 9]
+
+r13.  8 -  8 [t][10]
+
+r14.  9 -  9 [r][11]
+
+r15. 10 - 10 [t][12]
+
+r16. 11 - 10 [w][12]
+
+r17. 12 - 10 [w][12]
+
+=============================
+
+??? I think the below is okay???
+
+r01.  1 -  1 [t][ 3]
+
+r02.  2 -  2 [t][ 3]
+
+r03.  3 -  2 [w][ 3] 
+
+r04.  4 -  3 [t][ 3]
+
+r05.  4 -  4 [l][ 3]
+
+r06.  5 -  4 [w][ 3]
+
+
