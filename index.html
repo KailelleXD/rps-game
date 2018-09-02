@@ -34,8 +34,8 @@
 
     var suddenDeathRound = 0;
 
-    var compChoices = ["r", "p", "s"]; // <-- comment this out and...
-    //var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
+    // var compChoices = ["r", "p", "s"]; // <-- comment this out and...
+    var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
     // By doing this you can play-test the code 
     // and check out how the algorithm works!
 
@@ -78,7 +78,7 @@
     }
 
     function suddenDeathCheck() {
-      if (totalRounds == 5 && userScore == compScore) {
+      if (totalRounds == 5 && userScore == compScore && suddenDeathRound == 0) {
         console.log("=========================================================================");
         console.log("No clear winner at the end of Round 5!");
         console.log("Time to start SUDDEN DEATH!");
@@ -97,6 +97,12 @@
           "] of SUDDEN DEATH!");
         console.log("=========================================================================");
         console.log(" ");
+      }
+    }
+
+    function sdBadKey() {
+      if (totalRounds == 5 && userScore == compScore) {
+        suddenDeathRound--;
       }
     }
 
@@ -181,7 +187,8 @@
         sdTieCheck();
       } else {
         //This is a temporary solution to an incorrect key-press.
-        totalRounds--; //We decrement totalRounds to counter the initial increment.
+        // totalRounds--; //We decrement totalRounds to counter the initial increment.
+        sdBadKey(); //If in Sudden Death Rounds, then function decrements to keep accurate count.
         console.log("You pressed an incorrect key! Please choose, 'r', 'p', or 's' to play!");
         console.log(" ");
         console.log(" ");
