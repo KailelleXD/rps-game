@@ -13,20 +13,38 @@
   <h1>Open the Console to play! XD</h1>
 
   <script type="text/javascript">
+        /* 
+        Below you will find my solution to the RPS class activity.
+        Please read the comments throughout the page for more info!
+        For now everything is logged through the console, 
+        but if my understanding is correct, then in a future revision
+        console.log would be replaced with code to manipulate the DOM.
+        If you have any questions, I'll try my best to answer them! ^_^;
+
+        Also, if you find any BUGS please DM me on slack!
+        */
+
     //Declared Variables/Arrays
     var userScore = 0;
     var compScore = 0;
     var totalRounds = 0;
+
+    //The variable below prevents both user/comp from achieving a winning score simultaneously.
     var scoreToWin = 3;
+
     var suddenDeathRound = 0;
 
-    var compChoices = ["r"];
+    var compChoices = ["r", "p", "s"]; // <-- comment this out and...
+    //var compChoices = ["r"]; // <-- un-comment this, to force the computer to only choose ROCK.
+    // By doing this you can play-test the code 
+    // and check out how the algorithm works!
 
     console.log("Let's play ROCK, PAPER, SCISSORS!!!");
     console.log("(Best out of FIVE games WINS)")
     console.log("Please press, 'r', 'p' or 's'");
     console.log(" ");
 
+    //Functions to prevent repetative coding and check different game statuses.
     function gameReset() {
       userScore = 0;
       compScore = 0;
@@ -41,6 +59,8 @@
       console.log(" ");
     }
 
+    /* The function below checks to see if both the user/comp are tied
+    to prevent a tie game resulting in a false win. */
     function tieCheck() {
       if (userScore == compScore && totalRounds >= scoreToWin && (userScore == scoreToWin || compScore == scoreToWin)) {
         scoreToWin++;
@@ -80,14 +100,16 @@
       }
     }
 
+    //Below is the main section of code that allows the game to function as intended.
     document.onkeyup = function (event) {
 
-      totalRounds++;
+      totalRounds++; //Adds one to totalRounds everytime the user depresses a key.
 
       var userChoice = event.key;
 
       var compChoice = compChoices[Math.floor(Math.random() * compChoices.length)];
 
+      // The section below assigns the whole-word depending on the user/comp's choice.
       if (userChoice == "r") {
         userChoiceDisplay = "ROCK";
       } else if (userChoice == "p") {
@@ -106,19 +128,22 @@
         compChoiceDisplay = "SCISSORS";
       }
 
-      suddenDeath();
+      suddenDeath(); //A function to check if the user is in Sudden Death (Past round 5)
 
+      //This is where the whole-word is displayed in the console.
       console.log("User chose: " + userChoiceDisplay);
       console.log("Comp chose: " + compChoiceDisplay);
 
+      //The section below is the if-else statements to determine who wins each round.
       if (userChoice == "r" && compChoice == "s" || userChoice == "p" && compChoice == "r" || userChoice == "s" &&
         compChoice == "p") {
-        userScore++;
-        tieCheck();
+        userScore++; //Increments userScore by 1, ( Same as: userScore = userScore + 1; )
+        tieCheck(); //Refer back up to the functions section!
         console.log("You win!")
         console.log("User's score: " + userScore);
         console.log("Comp's score: " + compScore);
-        //console.log("Score needed to win: " + scoreToWin);
+        //The line of code below was used for debugging purposes.
+        //console.log("Score needed to win: " + scoreToWin); 
         console.log(" ");
         suddenDeathCheck();
       } else if (compChoice == "r" && userChoice == "s" || compChoice == "p" && userChoice == "r" || compChoice ==
@@ -155,12 +180,15 @@
         suddenDeathCheck();
         sdTieCheck();
       } else {
-        totalRounds--;
+        //This is a temporary solution to an incorrect key-press.
+        totalRounds--; //We decrement totalRounds to counter the initial increment.
         console.log("You pressed an incorrect key! Please choose, 'r', 'p', or 's' to play!");
         console.log(" ");
         console.log(" ");
       }
 
+      /* The section below determines when there is a winner
+      as well as runs the gameReset function. */
       if (userScore >= scoreToWin && totalRounds >= 5 && userScore > compScore) {
         console.log("<<<You won the game!>>>");
         console.log(" ");
